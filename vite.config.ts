@@ -8,6 +8,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, 'src/index.js'),
       name: 'ComponentsUI',
+      formats: ['es', 'umd'],
       fileName: (format) => `${format}.js`,
     },
     rollupOptions: {

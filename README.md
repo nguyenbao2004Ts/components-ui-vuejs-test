@@ -1,4 +1,4 @@
-# Components UI Vue.js
+# Components UI Vue.js Test
 
 [![npm version](https://img.shields.io/npm/v/components-ui-vuejs-test.svg)](https://www.npmjs.com/package/components-ui-vuejs-test)
 [![License](https://img.shields.io/npm/l/components-ui-vuejs-test.svg)](https://github.com/your-username/components-ui-vuejs-test/blob/main/LICENSE)
@@ -9,39 +9,26 @@ Thư viện UI components dành cho Vue.js 3 được xây dựng với TypeScri
 
 - ✅ Hỗ trợ Vue 3 + TypeScript
 - ✅ Tree-shaking friendly
-- ✅ ES modules và CommonJS
+- ✅ ES modules và UMD
 - ✅ Styled components với CSS scoped
 - ✅ Dễ dàng tùy chỉnh
 
 ## 📦 Cài đặt
 
-### NPM
-
 ```bash
 npm install components-ui-vuejs-test
 ```
 
-### Yarn
-
-```bash
-yarn add components-ui-vuejs-test
-```
-
-### PNPM
-
-```bash
-pnpm add components-ui-vuejs-test
-```
-
 ## 🔧 Cách sử dụng
 
-### Cài đặt toàn bộ plugin (Recommended)
+### Phương pháp 1: Sử dụng Plugin (Recommended)
 
 ```javascript
-// main.js hoặc main.ts
+// main.js
 import { createApp } from 'vue'
 import App from './App.vue'
 import ComponentsUI from 'components-ui-vuejs-test'
+import 'components-ui-vuejs-test/dist/style.css'
 
 const app = createApp(App)
 app.use(ComponentsUI)
@@ -58,7 +45,7 @@ Sau đó sử dụng trong template:
 </template>
 ```
 
-### Import từng component (Tree-shaking)
+### Phương pháp 2: Import từng component (Tree-shaking)
 
 ```vue
 <template>
@@ -78,7 +65,27 @@ export default {
 </script>
 ```
 
-### Import với TypeScript
+### Phương pháp 3: Import trực tiếp từ source (Development)
+
+```vue
+<template>
+  <div>
+    <LearnVueButton>Direct Import</LearnVueButton>
+  </div>
+</template>
+
+<script>
+import LearnVueButton from 'components-ui-vuejs-test/components/LearnVueButton.vue'
+
+export default {
+  components: {
+    LearnVueButton,
+  },
+}
+</script>
+```
+
+### TypeScript Support
 
 ```vue
 <script lang="ts">
@@ -101,11 +108,15 @@ Button component đơn giản với styling mặc định.
 
 #### Props
 
-- Chưa có props (sẽ được thêm trong phiên bản tương lai)
+Hiện tại chưa có props (sẽ được thêm trong phiên bản tương lai)
 
 #### Slots
 
 - `default`: Nội dung của button
+
+#### Events
+
+- `click`: Được emit khi button được click
 
 #### Ví dụ sử dụng
 
@@ -113,103 +124,136 @@ Button component đơn giản với styling mặc định.
 <template>
   <div>
     <!-- Button đơn giản -->
-    <LearnVueButton>Click me</LearnVueButton>
+    <LearnVueButton @click="handleClick">Click me</LearnVueButton>
 
     <!-- Button với slot content -->
-    <LearnVueButton>
-      <span>Custom Content</span>
+    <LearnVueButton @click="handleSubmit">
+      <span>🚀 Submit</span>
     </LearnVueButton>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    handleClick() {
+      console.log('Button clicked!')
+    },
+    handleSubmit() {
+      console.log('Form submitted!')
+    },
+  },
+}
+</script>
 ```
 
 ## 🎨 Tùy chỉnh Style
 
-Components sử dụng CSS scoped, bạn có thể ghi đè styles bằng cách:
+### CSS Variables (Recommended)
+
+```css
+:root {
+  --learn-vue-button-bg: #42b983;
+  --learn-vue-button-color: white;
+  --learn-vue-button-padding: 10px 20px;
+  --learn-vue-button-border-radius: 5px;
+}
+```
+
+### CSS Override
 
 ```vue
 <style>
 /* Ghi đè style của LearnVueButton */
 .learn-vue-button {
-  background-color: #your-color !important;
+  background-color: #ff6b6b !important;
   border-radius: 10px !important;
+  font-weight: bold !important;
+}
+
+.learn-vue-button:hover {
+  background-color: #ff5252 !important;
+  transform: translateY(-1px);
 }
 </style>
 ```
 
-## 🛠️ Development
+## 🚀 Phát triển và Đóng góp
 
-### Yêu cầu hệ thống
-
-- Node.js 18+
-- npm 8+ hoặc yarn 1.22+ hoặc pnpm 7+
-
-### Cài đặt dependencies
+### Build từ source
 
 ```bash
+# Clone repository
+git clone https://github.com/your-username/components-ui-vuejs-test.git
+cd components-ui-vuejs-test
+
+# Cài đặt dependencies
 npm install
-```
 
-### Chạy development server
-
-```bash
+# Chạy development server
 npm run dev
-```
 
-### Build cho production
-
-```bash
+# Build cho production
 npm run build
-```
 
-### Linting
+# Type checking
+npm run type-check
 
-```bash
+# Linting
 npm run lint
 ```
 
-### Type checking
+### Test package local
 
 ```bash
-npm run type-check
+# Trong thư mục package
+npm run build
+npm pack
+
+# Trong project test
+npm install ./components-ui-vuejs-test-1.0.1.tgz
 ```
 
-## 📁 Cấu trúc project
+## 📁 Cấu trúc build output
 
 ```
-components-ui-vuejs-test/
-├── src/
-│   ├── components/
-│   │   └── LearnVueButton.vue
-│   ├── index.js              # Entry point cho library
-│   ├── main.ts              # Entry point cho dev server
-│   └── App.vue              # Demo app
-├── dist/                    # Build output
-├── public/
-└── package.json
+dist/
+├── es.js              # ES modules
+├── umd.js             # UMD format
+├── components-ui-vuejs-test.css  # Styles
+└── types/             # TypeScript definitions
 ```
 
-## 🤝 Đóng góp
+## ⚠️ Troubleshooting
 
-1. Fork repository
-2. Tạo feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
-5. Tạo Pull Request
+### Lỗi "Failed to resolve entry"
+
+Đảm bảo bạn đã:
+
+1. Install đúng package: `npm install components-ui-vuejs-test`
+2. Import đúng cú pháp
+3. Có file `dist/es.js` và `dist/umd.js` trong package
+
+### Lỗi styles không hiển thị
+
+```javascript
+// Đảm bảo import CSS
+import 'components-ui-vuejs-test/dist/style.css'
+```
+
+### TypeScript errors
+
+Thêm vào `vite-env.d.ts`:
+
+```typescript
+declare module 'components-ui-vuejs-test' {
+  import type { DefineComponent } from 'vue'
+  export const LearnVueButton: DefineComponent<{}, {}, any>
+  const plugin: any
+  export default plugin
+}
+```
 
 ## 📄 License
 
-MIT License - xem [LICENSE](LICENSE) file để biết thêm chi tiết.
-
-## 🐛 Báo lỗi
-
-Nếu bạn gặp lỗi hoặc có đề xuất, vui lòng tạo [issue](https://github.com/your-username/components-ui-vuejs-test/issues).
-
-## 📞 Liên hệ
-
-- GitHub: [@your-username](https://github.com/your-username)
-- Email: your-email@example.com
-
----
-
-Made with ❤️ in Vietnam
+MIT License

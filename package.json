@@ -1,17 +1,24 @@
 {
   "name": "components-ui-vuejs-test",
   "version": "1.0.0",
-  "main": "./dist/index.js",
-  "module": "./dist/index.es.js",
+  "main": "./dist/umd.js",
+  "module": "./dist/es.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src/components"
+  ],
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js"
+      "import": "./dist/es.js",
+      "require": "./dist/umd.js",
+      "types": "./dist/index.d.ts"
     },
-    "./dist/styles.css": "./dist/styles.css",
+    "./dist/style.css": "./dist/components-ui-vuejs-test.css",
     "./package.json": "./package.json",
     "./components/LearnVueButton.vue": {
-      "import": "./src/components/LearnVueButton.vue"
+      "import": "./src/components/LearnVueButton.vue",
+      "./components/*": "./src/components/*"
     }
   },
   "type": "module",
