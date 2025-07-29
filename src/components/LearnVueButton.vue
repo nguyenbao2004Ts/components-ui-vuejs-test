@@ -1,6 +1,5 @@
 <template>
   <button class="learn-vue-button">
-    Learn Vue
     <slot></slot>
   </button>
 </template>
